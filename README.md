@@ -22,6 +22,7 @@
 ## **Node.js - Egoing Lee**
 
 - [Node.js Express 실습 코드](./src/node.js-express)
+- [Node.js Mysql 실습 코드](./src/node.js-mysql)
 
 ---
 
