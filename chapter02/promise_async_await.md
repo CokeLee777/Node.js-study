@@ -3,8 +3,8 @@
 > 콜백 헬이라고 불리는 지저분한 자바스크립트 코드의 해결책이다.
 
 - 프로미스: 내용이 실행은 되었지만 결과를 아직 반환하지 않은 객체
-- Then을 붙이면 결과를 반환한다.
-- 실행이 완료되지 않았으면 완료된 후에 Then 내부함수가 실행됨
+- then을 붙이면 결과를 반환한다.
+- 실행이 완료되지 않았으면 완료된 후에 then 내부함수가 실행됨
 - 프로미스 내부는 동기적으로 실행되고, 외부(ex: then)는 ㅣ비동기적으로 실행된다.
 
 ```javascript
@@ -57,6 +57,7 @@ function findAndSaveUser(Users){
 
 - await이 프로미스의 then이라고 생각하면 된다.
 - 실행 순서가 오른쪽에서 왼쪽이다.
+- 단, reject가 없기 때문에 reject를 하려면 try, catch문을 사용해야 한다.
 
 ```javascript
 async function findAndSaveUser(Users){
@@ -66,4 +67,10 @@ async function findAndSaveUser(Users){
     user = await Users.findOne({ gender: 'm'});
     //생략
 }
+```
+
+- async 함수에서 리턴한 값을 then으로 받아야 한다.
+
+```javascript
+findAndSaveUser(Users).then(() => ...)
 ```
