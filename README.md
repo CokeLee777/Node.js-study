@@ -36,3 +36,7 @@
 * [X] [클래스](/chapter02/class.md)
 * [X] [Promise, async/await](/chapter02/promise_async_await.md)
 * [X] [프론트엔드 자바스크립트](/chapter02/frontend_javascript.md)
+
+### 출처
+
+- [Node.js 교과서 - 기본부터 프로젝트 실습까지](https://www.inflearn.com/course/노드-교과서)
