@@ -1,6 +1,6 @@
 # Node.js 저장소
 
-## **Node.js 학습한 내용을 기록하는 저장소입니다**
+## **Node.js 교과서**
 
 **:book: Contents**
 1. [노드 시작하기](#1-start-node)
@@ -18,6 +18,10 @@
 13. [CLI 프로그램 만들기](#9-spring)
 14. [AWS로 배포하기](#10-security)
 15. [서버리스 노드 개발](#11-etc)
+
+## **Node.js - Egoing Lee**
+
+- [Node.js Express 실습 코드](./src/node.js-express)
 
 ---
 
@@ -40,3 +44,4 @@
 ### 출처
 
 - [Node.js 교과서 - 기본부터 프로젝트 실습까지](https://www.inflearn.com/course/노드-교과서)
+- [Node.js - Express](https://www.inflearn.com/course/node-js-express/dashboard)
