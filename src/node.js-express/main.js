@@ -5,14 +5,24 @@ const app = express();
 const port = 3000;
 const fs = require('fs');
 const helmet = require('helmet');
+const session = require('express-session');
+const FileStore = require('session-file-store')(session);
 
 const topicRouter = require('./routes/topic');
 const indexRouter = require('./routes/index');
+const authRouter = require('./routes/auth');
 
 app.use(helmet());  //helmet 사용
 app.use(bodyParser.urlencoded({ extended: false }));  //body parser 사용
 app.use(compression()); //압축 기능 미들웨어 사용 -> 데이터가 많을 경우 압축한다.
 app.use(express.static('public'));  //정적 파일 미들웨어 사용
+
+app.use(session({
+  secret: 'asadlfkj!@#!@#dfgasdg',
+  resave: false,
+  saveUninitialized: true,
+  store: new FileStore()
+}));
 
 //커스텀 미들웨어 사용, app.use, app.get, app.post 다 사용가능
 //파일읽기 기능
@@ -25,8 +35,11 @@ app.get('*', (request, response, next) => {
   });
 });
 
+
+
 app.use('/', indexRouter);
 app.use('/topic', topicRouter);
+app.use('/auth', authRouter);
 
 // 에러처리
 app.use((request, response) => {

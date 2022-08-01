@@ -4,25 +4,34 @@ const path = require('path');
 const sanitizeHtml = require('sanitize-html');
 const fs = require('fs');
 const template = require('../lib/template');
+const auth = require('../lib/auth');
 
 router.get('/create', (request, response) => {
-    const title = 'WEB - create';
-    const list = template.list(request.list);
-    const html = template.HTML(title, list, `
-      <form action="/topic/create" method="post">
-        <p><input type="text" name="title" placeholder="title"></p>
-        <p>
-          <textarea name="description" placeholder="description"></textarea>
-        </p>
-        <p>
-          <input type="submit">
-        </p>
-      </form>
-    `, '');
-    response.send(html);
-  });
+  if(!auth.isOwner(request, response)){
+    response.redirect('/');
+    return false;
+  }
+  const title = 'WEB - create';
+  const list = template.list(request.list);
+  const html = template.HTML(title, list, `
+    <form action="/topic/create" method="post">
+      <p><input type="text" name="title" placeholder="title"></p>
+      <p>
+        <textarea name="description" placeholder="description"></textarea>
+      </p>
+      <p>
+        <input type="submit">
+      </p>
+    </form>
+  `, '', auth.statusUI(request, response));
+  response.send(html);
+});
   
   router.post('/create', (request, response) => {
+    if(!auth.isOwner(request, response)){
+      response.redirect('/');
+      return false;
+    }
     const body = request.body;
     const title = body.title;
     const description = body.description;
@@ -32,6 +41,10 @@ router.get('/create', (request, response) => {
   });
   
   router.get('/update/:pageId', (request, response) => {
+    if(!auth.isOwner(request, response)){
+      response.redirect('/');
+      return false;
+    }
     const filteredId = path.parse(request.params.pageId).base;
     fs.readFile(`data/${filteredId}`, 'utf8', function(err, description){
       const title = request.params.pageId;
@@ -49,13 +62,18 @@ router.get('/create', (request, response) => {
           </p>
         </form>
         `,
-        `<a href="/topic/create">create</a> <a href="/update/${title}">update</a>`
+        `<a href="/topic/create">create</a> <a href="/update/${title}">update</a>`,
+        auth.statusUI(request, response)
       );
       response.send(html);
     });
   });
   
   router.post('/update/:pageId', (request, response) => {
+    if(!auth.isOwner(request, response)){
+      response.redirect('/');
+      return false;
+    }
     const body = request.body;
     const id = body.id;
     const title = body.title;
@@ -68,6 +86,10 @@ router.get('/create', (request, response) => {
   });
   
   router.post('/delete', (request, response) => {
+    if(!auth.isOwner(request, response)){
+      response.redirect('/');
+      return false;
+    }
     const body = request.body;
     const id = body.id;
     const filteredId = path.parse(id).base;
@@ -95,7 +117,7 @@ router.get('/create', (request, response) => {
               <form action="/topic/delete" method="post">
                 <input type="hidden" name="id" value="${sanitizedTitle}">
                 <input type="submit" value="delete">
-              </form>`
+              </form>`, auth.statusUI(request, response)
           );
           response.send(html);
         }
